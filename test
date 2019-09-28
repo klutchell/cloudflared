@@ -1,0 +1,7 @@
+#!/bin/sh
+
+nohup sh -c '/usr/local/bin/cloudflared proxy-dns' &
+
+sleep 5
+
+dig +short @127.0.0.1 -p 53053 cloudflare.com A || exit 1
