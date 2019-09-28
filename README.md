@@ -29,6 +29,8 @@ docker run -p 53:5053/udp -p 49312/tcp klutchell/cloudflared
 * `-e TZ=America/Toronto` - (optional) provide a timezone for the container from this [list of TZ timezones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
 * `-e TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query` - (optional) upstream endpoint URL, you can specify multiple endpoints for redundancy
 
+Additional environment variables for other cloudflared features: https://developers.cloudflare.com/argo-tunnel/reference/arguments/
+
 ## Building
 
 ```bash
@@ -45,7 +47,8 @@ make build-all BUILD_OPTIONS=--no-cache
 
 ## Usage
 
-Argo Tunnel quickstart: https://developers.cloudflare.com/argo-tunnel/quickstart/
+* Argo Tunnel quickstart: https://developers.cloudflare.com/argo-tunnel/quickstart/
+* Running a DNS over HTTPS Client: https://developers.cloudflare.com/1.1.1.1/dns-over-https/cloudflared-proxy/
 
 ## Author
 
