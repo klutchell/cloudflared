@@ -29,7 +29,7 @@ LABEL org.label-schema.name="klutchell/cloudflared"
 LABEL org.label-schema.description="Argo Tunnel client"
 LABEL org.label-schema.url="https://github.com/cloudflare/cloudflared"
 LABEL org.label-schema.vcs-url="https://github.com/klutchell/cloudflared"
-LABEL org.label-schema.docker.cmd="docker run -p 53:5053/udp -p 49312/tcp klutchell/cloudflared"
+LABEL org.label-schema.docker.cmd="docker run -p 53:5053/udp klutchell/cloudflared"
 LABEL org.label-schema.build-date="${BUILD_DATE}"
 LABEL org.label-schema.version="${BUILD_VERSION}"
 LABEL org.label-schema.vcs-ref="${VCS_REF}"
@@ -44,12 +44,11 @@ RUN apk add --no-cache bind-tools=9.14.3-r0 ca-certificates=20190108-r0 libressl
 
 USER cloudflared
 
-ENV TUNNEL_METRICS="0.0.0.0:49312"
 ENV TUNNEL_DNS_ADDRESS="0.0.0.0"
 ENV TUNNEL_DNS_PORT="5053"
 ENV TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
 
-EXPOSE 5053/udp 49312/tcp
+EXPOSE 5053/udp
 
 ENTRYPOINT [ "/usr/local/bin/cloudflared" ]
 

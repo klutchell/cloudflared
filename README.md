@@ -4,7 +4,7 @@
 <a href="https://hub.docker.com/r/klutchell/cloudflared/"><img src="https://img.shields.io/docker/stars/klutchell/cloudflared.svg?style=flat-square" alt="Docker Stars"></a>
 <a href="https://hub.docker.com/r/klutchell/cloudflared/"><img src="https://img.shields.io/docker/pulls/klutchell/cloudflared.svg?style=flat-square" alt="Docker Pulls"></a>
 
-[Argo Tunnel client](https://github.com/cloudflare/cloudflared) contains the command-line client (`cloudflared`) and its libraries for Argo Tunnel, a tunneling daemon that proxies any local webserver through the Cloudflare network. The `cloudflared` client also supports doing DNS over an encrypted HTTPS connection instead of using the default DNS resolver configured for your server/container/VM/environment.
+This image contains the [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) command-line client and its libraries for Argo Tunnel, a tunneling daemon that proxies any local webserver through the Cloudflare network. The [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) client also supports doing DNS over an encrypted HTTPS connection instead of using the default DNS resolver configured for your server/container/VM/environment.
 
 ## Tags
 
@@ -20,21 +20,16 @@
 ## Deployment
 
 ```bash
-docker run -p 53:5053/udp -p 49312/tcp klutchell/cloudflared
+# run a DNS over HTTPS proxy server on port 53
+docker run -p 53:5053/udp klutchell/cloudflared proxy-dns
 ```
-
-## Parameters
-
-- `-p 53:5053/udp` - publish udp port 5053 on the container to udp port 53 on the host for [DNS over HTTPS](https://developers.cloudflare.com/argo-tunnel/reference/doh/)
-- `-p 49312:49312/tcp` - (optional) publish tcp port 49312 on the container to tcp port 49312 on the host for metrics reporting
-- `-e TZ=America/Toronto` - (optional) provide a timezone for the container from this [list of TZ timezones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
-- `-e TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query` - (optional) upstream endpoint URL
-
-Environment variables for Argo Tunnel: <https://developers.cloudflare.com/argo-tunnel/reference/arguments/>
 
 ## Building
 
 ```bash
+# print makefile usage
+make help
+
 # ARCH can be amd64, arm32v6, arm32v7, arm64v8, i386, ppc64le, s390x
 # and is emulated on top of any host architechture with qemu
 make build ARCH=arm32v6
@@ -42,22 +37,28 @@ make build ARCH=arm32v6
 # appending -all to the make target will run the task
 # for all supported architectures and may take a long time
 make build-all BUILD_OPTIONS=--no-cache
-
-# run `make help` for a complete list of make targets
 ```
 
 ## Usage
 
-- Argo Tunnel: <https://developers.cloudflare.com/argo-tunnel/quickstart/>
-- DNS over HTTPS: <https://developers.cloudflare.com/argo-tunnel/reference/doh/>
+The [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) service supports multiple advanced/paid features
+such as [Argo Tunnel](https://developers.cloudflare.com/argo-tunnel/),
+however this README only covers basic [DNS over HTTPS](https://developers.cloudflare.com/argo-tunnel/reference/doh/) proxy.
 
-You can print the command-line help options by running the container.
+You can print the full command-line usage options by running the container.
 
 ```bash
+# print general usage
 docker run --rm klutchell/cloudflared --help
+
+# print proxy-dns usage
 docker run --rm klutchell/cloudflared proxy-dns --help
+
+# print tunnel usage
 docker run --rm klutchell/cloudflared tunnel --help
 ```
+
+
 
 ## Author
 
@@ -74,4 +75,4 @@ This image is largely based on CrazyMax's work: <https://github.com/crazy-max/do
 ## License
 
 - klutchell/cloudflared: [MIT License](./LICENSE)
-- cloudflared: [LICENSE](https://github.com/cloudflare/cloudflared/blob/master/LICENSE)
+- cloudflared: [CLOUDFLARED LICENSE](https://developers.cloudflare.com/argo-tunnel/license/)
