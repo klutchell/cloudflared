@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/klutchell/cloudflared.svg?branch=master)](https://travis-ci.com/klutchell/cloudflared)
 [![Docker Pulls](https://img.shields.io/docker/pulls/klutchell/cloudflared.svg?style=flat)](https://hub.docker.com/r/klutchell/cloudflared/)
 
-[Argo Tunnel client](https://github.com/cloudflare/cloudflared) contains the command-line client and its libraries for Argo Tunnel, a tunneling daemon that proxies any local webserver through the Cloudflare network.
+[Argo Tunnel client](https://github.com/cloudflare/cloudflared) contains the command-line client (`cloudflared`) and its libraries for Argo Tunnel, a tunneling daemon that proxies any local webserver through the Cloudflare network. The `cloudflared` client also supports doing DNS over an encrypted HTTPS connection instead of using the default DNS resolver configured for your server/container/VM/environment.
 
 ## Tags
 
