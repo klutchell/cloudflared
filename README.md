@@ -25,12 +25,12 @@ docker run -p 53:5053/udp -p 49312/tcp klutchell/cloudflared
 
 ## Parameters
 
-- `-p 53:5053/udp` - expose udp port 5053 on the container to udp port 53 on the host for dns over https lookups
-- `-p 49312:49312/tcp` - expose tcp port 49312 on the container to tcp port 49312 on the host for metrics reporting
+- `-p 53:5053/udp` - publish udp port 5053 on the container to udp port 53 on the host for [DNS over HTTPS](https://developers.cloudflare.com/argo-tunnel/reference/doh/)
+- `-p 49312:49312/tcp` - (optional) publish tcp port 49312 on the container to tcp port 49312 on the host for metrics reporting
 - `-e TZ=America/Toronto` - (optional) provide a timezone for the container from this [list of TZ timezones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
-- `-e TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query` - (optional) upstream endpoint URL, you can specify multiple endpoints for redundancy
+- `-e TUNNEL_DNS_UPSTREAM=https://1.1.1.1/dns-query,https://1.0.0.1/dns-query` - (optional) upstream endpoint URL
 
-Additional environment variables for other cloudflared features: <https://developers.cloudflare.com/argo-tunnel/reference/arguments/>
+Environment variables for Argo Tunnel: <https://developers.cloudflare.com/argo-tunnel/reference/arguments/>
 
 ## Building
 
@@ -48,8 +48,16 @@ make build-all BUILD_OPTIONS=--no-cache
 
 ## Usage
 
-- Argo Tunnel quickstart: <https://developers.cloudflare.com/argo-tunnel/quickstart/>
-- Running a DNS over HTTPS Client: <https://developers.cloudflare.com/1.1.1.1/dns-over-https/cloudflared-proxy/>
+- Argo Tunnel: <https://developers.cloudflare.com/argo-tunnel/quickstart/>
+- DNS over HTTPS: <https://developers.cloudflare.com/argo-tunnel/reference/doh/>
+
+You can print the command-line help options by running the container.
+
+```bash
+docker run --rm klutchell/cloudflared --help
+docker run --rm klutchell/cloudflared proxy-dns --help
+docker run --rm klutchell/cloudflared tunnel --help
+```
 
 ## Author
 
