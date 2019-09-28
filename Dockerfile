@@ -10,7 +10,7 @@ ENV CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared"
 
 RUN apk add --no-cache build-base=0.5-r1 curl=7.66.0-r0 gcc=8.3.0-r0 git=2.22.0-r0 \
 	&& git -c advice.detachedHead=false clone --depth 1 --branch ${CLOUDFLARED_BRANCH} ${CLOUDFLARED_URL} "${GOPATH}/src/github.com/cloudflare/cloudflared"
-	
+
 WORKDIR ${GOPATH}/src/github.com/cloudflare/cloudflared
 
 RUN make cloudflared
@@ -56,4 +56,4 @@ ENTRYPOINT [ "/usr/local/bin/cloudflared" ]
 CMD [ "proxy-dns" ]
 
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
-CMD dig +short @127.0.0.1 -p 5053 cloudflare.com A || exit 1
+	CMD dig +short @127.0.0.1 -p 5053 cloudflare.com A || exit 1

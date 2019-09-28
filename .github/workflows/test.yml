@@ -3,8 +3,8 @@ name: test
 on:
   pull_request:
     branches:
-    - master
-    - /^v\d+\.\d+\.\d+.*$/
+      - master
+      - /^v\d+\.\d+\.\d+.*$/
 
 jobs:
   ARCH:
@@ -13,11 +13,10 @@ jobs:
     strategy:
       matrix:
         ARCH: [amd64, arm32v6, arm32v7, arm64v8, i386, ppc64le, s390x]
-    
-    steps:
-    
-    - name: checkout
-      uses: actions/checkout@v1
 
-    - name: build
-      run: make build ARCH=${{ matrix.ARCH }} DOCKER_REPO=${{ secrets.DOCKER_REPO }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1
+
+      - name: build
+        run: make build ARCH=${{ matrix.ARCH }} DOCKER_REPO=${{ secrets.DOCKER_REPO }}
