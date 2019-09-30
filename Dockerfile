@@ -8,7 +8,7 @@ FROM ${ARCH}/golang:1.13.1-alpine3.10 as cloudflared
 ENV CLOUDFLARED_BRANCH="2019.9.1"
 ENV CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared"
 
-RUN apk add --no-cache build-base=0.5-r1 curl=7.66.0-r0 gcc=8.3.0-r0 git=2.22.0-r0 \
+RUN apk add --no-cache build-base=0.5-r1 ca-certificates=20190108-r0 gcc=8.3.0-r0 git=2.22.0-r0 \
 	&& git -c advice.detachedHead=false clone --depth 1 --branch ${CLOUDFLARED_BRANCH} ${CLOUDFLARED_URL} "${GOPATH}/src/github.com/cloudflare/cloudflared"
 
 WORKDIR ${GOPATH}/src/github.com/cloudflare/cloudflared
@@ -36,7 +36,7 @@ LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
 COPY --from=cloudflared /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
 
-RUN apk add --no-cache bind-tools=9.14.3-r0 ca-certificates=20190108-r0 libressl=2.7.5-r0 shadow=4.6-r2 tzdata=2019b-r0 \
+RUN apk add --no-cache ca-certificates=20190108-r0 drill=1.7.0-r2 libressl=2.7.5-r0 shadow=4.6-r2 tzdata=2019b-r0 \
 	&& addgroup -g 1000 cloudflared && adduser -u 1000 -D -H -s /sbin/nologin -G cloudflared cloudflared \
 	&& cloudflared --version
 
@@ -48,9 +48,9 @@ ENV TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
 
 EXPOSE 5053/udp
 
+HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
+	CMD drill -p 5053 cloudflare.com @127.0.0.1 || exit 1
+
 ENTRYPOINT [ "/usr/local/bin/cloudflared" ]
 
 CMD [ "proxy-dns" ]
-
-HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
-	CMD dig +short @127.0.0.1 -p 5053 cloudflare.com A || exit 1
