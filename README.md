@@ -1,8 +1,7 @@
 # unofficial cloudflared docker image
 
-<a href="https://github.com/klutchell/cloudflared/actions"><img src="https://github.com/klutchell/cloudflared/workflows/build/badge.svg" alt="Build Status"></a>
-<a href="https://hub.docker.com/r/klutchell/cloudflared/"><img src="https://img.shields.io/docker/stars/klutchell/cloudflared.svg?style=flat-square" alt="Docker Stars"></a>
-<a href="https://hub.docker.com/r/klutchell/cloudflared/"><img src="https://img.shields.io/docker/pulls/klutchell/cloudflared.svg?style=flat-square" alt="Docker Pulls"></a>
+[![Docker Pulls](https://img.shields.io/docker/pulls/klutchell/cloudflared.svg?style=flat-square)](https://hub.docker.com/r/klutchell/cloudflared/)
+[![Docker Stars](https://img.shields.io/docker/stars/klutchell/cloudflared.svg?style=flat-square)](https://hub.docker.com/r/klutchell/cloudflared/)
 
 This image contains the [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) command-line client and its libraries for Argo Tunnel, a tunneling daemon that proxies any local webserver through the Cloudflare network. The [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) client also supports doing DNS over an encrypted HTTPS connection instead of using the default DNS resolver configured for your server/container/VM/environment.
 
