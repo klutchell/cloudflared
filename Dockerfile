@@ -36,7 +36,7 @@ LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
 COPY --from=cloudflared /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
 
-RUN apk add --no-cache ca-certificates=20190108-r0 drill=1.7.0-r2 libressl=2.7.5-r0 shadow=4.6-r2 tzdata=2019b-r0 \
+RUN apk add --no-cache ca-certificates=20190108-r0 drill=1.7.0-r2 openssl=1.1.1d-r0 tzdata=2019b-r0 \
 	&& addgroup -g 1000 cloudflared && adduser -u 1000 -D -H -s /sbin/nologin -G cloudflared cloudflared \
 	&& cloudflared --version
 
