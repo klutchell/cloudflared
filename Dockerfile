@@ -35,11 +35,9 @@ LABEL org.label-schema.version="${BUILD_VERSION}"
 LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
 COPY --from=cloudflared /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
-COPY test.sh /
 
 RUN apk add --no-cache bind-tools=9.14.3-r0 ca-certificates=20190108-r0 libressl=2.7.5-r0 shadow=4.6-r2 tzdata=2019b-r0 \
 	&& addgroup -g 1000 cloudflared && adduser -u 1000 -D -H -s /sbin/nologin -G cloudflared cloudflared \
-	&& chmod +x /test.sh \
 	&& cloudflared --version
 
 USER cloudflared
