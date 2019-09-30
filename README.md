@@ -26,7 +26,7 @@ docker run -p 53:5053/udp klutchell/cloudflared proxy-dns
 ## Parameters
 
 - `-p 53:5053/udp` - publish udp port 5053 on the container to udp port 53 on the host
-- `-e TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query, https://1.0.0.1/dns-query"` - (optional) upstream endpoint URL, you can specify multiple endpoints for redundancy
+- `-e TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"` - (optional) upstream endpoint URL, you can specify multiple endpoints for redundancy
 
 ## Building
 
