@@ -36,11 +36,8 @@ LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
 COPY --from=cloudflared /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
 
-COPY entrypoint.sh /
-
 RUN apk add --no-cache ca-certificates=20190108-r0 drill=1.7.0-r2 openssl=1.1.1d-r0 tzdata=2019b-r0 \
 	&& addgroup -g 1000 cloudflared && adduser -u 1000 -D -H -s /sbin/nologin -G cloudflared cloudflared \
-	&& chmod +x /entrypoint.sh \
 	&& cloudflared --version
 
 USER cloudflared
@@ -54,6 +51,6 @@ EXPOSE 5053/udp
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
 	CMD drill -p 5053 cloudflare.com @127.0.0.1 || exit 1
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/cloudflared"]
 
 CMD ["proxy-dns"]

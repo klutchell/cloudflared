@@ -7,14 +7,21 @@ This image contains the [cloudflared](https://developers.cloudflare.com/argo-tun
 
 ## Tags
 
-- `latest`, `2019.9.1`
-- `amd64-latest`, `amd64-2019.9.1`
-- `arm32v6-latest`, `arm32v6-2019.9.1`
-- `arm32v7-latest`, `arm32v7-2019.9.1`
-- `arm64v8-latest`, `arm64v8-2019.9.1`
-- `i386-latest`, `i386-2019.9.1`
-- `ppc64le-latest`, `ppc64le-2019.9.1`
-- `s390x-latest`, `s390x-2019.9.1`
+- `2019.9.1`, `latest`
+
+## Architectures
+
+Simply pulling `klutchell/cloudflared:<version>` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
+
+The architectures supported by this image are:
+
+- `amd64-<version>`
+- `arm32v6-<version>`
+- `arm32v7-<version>`
+- `arm64v8-<version>`
+- `i386-<version>`
+- `ppc64le-<version>`
+- `s390x-<version>`
 
 ## Deployment
 
