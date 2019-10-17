@@ -1,7 +1,7 @@
 
 DOCKER_REPO := klutchell/cloudflared
 ARCH := amd64
-TAG := 2019.9.1
+TAG := 2019.9.2
 BUILD_OPTIONS +=
 
 BUILD_DATE := $(strip $(shell docker run --rm busybox date -u +'%Y-%m-%dT%H:%M:%SZ'))

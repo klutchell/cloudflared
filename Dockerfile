@@ -5,8 +5,8 @@ ARG ARCH=amd64
 
 FROM ${ARCH}/golang:1.13.1-alpine3.10 as cloudflared
 
-ENV CLOUDFLARED_BRANCH="2019.9.1"
-ENV CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared"
+ARG CLOUDFLARED_BRANCH="2019.9.2"
+ARG CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared"
 
 RUN apk add --no-cache build-base=0.5-r1 ca-certificates=20190108-r0 gcc=8.3.0-r0 git=2.22.0-r0 \
 	&& git -c advice.detachedHead=false clone --depth 1 --branch ${CLOUDFLARED_BRANCH} ${CLOUDFLARED_URL} "${GOPATH}/src/github.com/cloudflare/cloudflared"
