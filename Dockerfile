@@ -46,8 +46,6 @@ ENV TUNNEL_DNS_ADDRESS="0.0.0.0"
 ENV TUNNEL_DNS_PORT="5053"
 ENV TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
 
-EXPOSE 5053/udp
-
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
 	CMD drill -p 5053 cloudflare.com @127.0.0.1 || exit 1
 

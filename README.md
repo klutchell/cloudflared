@@ -1,4 +1,4 @@
-# unofficial cloudflared docker image
+# unofficial cloudflared multiarch docker image
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/klutchell/cloudflared.svg?style=flat-square)](https://hub.docker.com/r/klutchell/cloudflared/)
 [![Docker Stars](https://img.shields.io/docker/stars/klutchell/cloudflared.svg?style=flat-square)](https://hub.docker.com/r/klutchell/cloudflared/)
@@ -11,17 +11,17 @@ This image contains the [cloudflared](https://developers.cloudflare.com/argo-tun
 
 ## Architectures
 
-Simply pulling `klutchell/cloudflared:<version>` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
+Simply pulling `klutchell/cloudflared:2019.9.1` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
 
 The architectures supported by this image are:
 
-- `amd64-<version>`
-- `arm32v6-<version>`
-- `arm32v7-<version>`
-- `arm64v8-<version>`
-- `i386-<version>`
-- `ppc64le-<version>`
-- `s390x-<version>`
+- `amd64-2019.9.1`
+- `arm32v6-2019.9.1`
+- `arm32v7-2019.9.1`
+- `arm64v8-2019.9.1`
+- `i386-2019.9.1`
+- `ppc64le-2019.9.1`
+- `s390x-2019.9.1`
 
 ## Deployment
 
@@ -56,8 +56,6 @@ The [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) serv
 such as [Argo Tunnel](https://developers.cloudflare.com/argo-tunnel/),
 however this README only covers basic [DNS over HTTPS](https://developers.cloudflare.com/argo-tunnel/reference/doh/) proxy.
 
-You can print the full command-line usage options by running the container.
-
 ```bash
 # print general usage
 docker run --rm klutchell/cloudflared --help
@@ -79,7 +77,9 @@ Please open an issue or submit a pull request with any features, fixes, or chang
 
 ## Acknowledgments
 
-This image is largely based on CrazyMax's work: <https://github.com/crazy-max/docker-cloudflared>
+A number of build steps were borrowed from CrazyMax's work: <https://github.com/crazy-max/docker-cloudflared>
+
+Original software is by Cloudflare: <https://developers.cloudflare.com/argo-tunnel/>
 
 ## License
 
