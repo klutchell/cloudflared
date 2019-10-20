@@ -36,7 +36,7 @@ LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
 COPY --from=cloudflared /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
 
-RUN apk add --no-cache ca-certificates=20190108-r0 drill=1.7.0-r2 openssl=1.1.1d-r0 tzdata=2019b-r0 \
+RUN apk add --no-cache ca-certificates=20190108-r0 drill=1.7.0-r2 openssl=1.1.1d-r0 tzdata=2019c-r0 \
 	&& addgroup -g 1000 cloudflared && adduser -u 1000 -D -H -s /sbin/nologin -G cloudflared cloudflared \
 	&& cloudflared --version
 
@@ -47,7 +47,8 @@ ENV TUNNEL_DNS_PORT="5053"
 ENV TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
 
 HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
-	CMD drill -p 5053 cloudflare.com @127.0.0.1 || exit 1
+	CMD drill -D -p 5053 sigok.verteiltesysteme.net @127.0.0.1 | grep NOERROR \
+	&& drill -D -p 5053 sigfail.verteiltesysteme.net @127.0.0.1 | grep SERVFAIL
 
 ENTRYPOINT ["/usr/local/bin/cloudflared"]
 
