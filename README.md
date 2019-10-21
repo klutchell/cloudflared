@@ -7,7 +7,7 @@
 
 ## Tags
 
-These tags including rolling updates, so from time to time the associated image may change to include fixes.
+These tags including rolling updates, so occasionally the associated image may change to include fixes.
 
 - `2019.9.2`, `latest`
 - `2019.9.1`
