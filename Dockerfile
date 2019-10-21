@@ -2,7 +2,7 @@
 
 FROM golang:1.12 as builder
 
-ARG CLOUDFLARED_BRANCH="2019.9.2"
+ARG CLOUDFLARED_BRANCH="2019.9.1"
 ARG CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared"
 
 RUN git clone --depth 1 --branch ${CLOUDFLARED_BRANCH} ${CLOUDFLARED_URL} "${GOPATH}/src/github.com/cloudflare/cloudflared"
