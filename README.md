@@ -12,29 +12,16 @@ This image contains the [cloudflared](https://developers.cloudflare.com/argo-tun
 
 ## Architectures
 
-Simply pulling `klutchell/cloudflared:2019.9.2` should retrieve the correct image for your arch, but you can also pull specific arch images via tags.
+Simply pulling `klutchell/cloudflared` should retrieve the correct image for your arch.
 
 The architectures supported by this image are:
 
-- `amd64-2019.9.2`
-- `arm32v6-2019.9.2`
-- `arm32v7-2019.9.2`
-- `arm64v8-2019.9.2`
-- `i386-2019.9.2`
-- `ppc64le-2019.9.2`
-- `s390x-2019.9.2`
-
-## Deployment
-
-```bash
-# run a DNS over HTTPS proxy server on port 53
-docker run -p 53:5053/udp klutchell/cloudflared proxy-dns
-```
-
-## Parameters
-
-- `-p 53:5053/udp` - publish udp port 5053 on the container to udp port 53 on the host
-- `-e TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"` - (optional) upstream endpoint URL, you can specify multiple endpoints for redundancy
+- `linux/amd64`
+- `linux/arm64`
+- `linux/ppc64le`
+- `linux/s390x`
+- `linux/386`
+- `linux/arm/v7`
 
 ## Building
 
@@ -42,22 +29,21 @@ docker run -p 53:5053/udp klutchell/cloudflared proxy-dns
 # print makefile usage
 make help
 
-# ARCH can be amd64, arm32v6, arm32v7, arm64v8, i386, ppc64le, s390x
-# and is emulated on top of any host architechture with qemu
-make build ARCH=arm32v6
+# build and test on the host OS architecture
+make build BUILD_OPTIONS=--no-cache
 
-# appending -all to the make target will run the task
-# for all supported architectures and may take a long time
-make build-all BUILD_OPTIONS=--no-cache
+# build multiarch manifest(s) for all supported architectures
+make manifest
 ```
 
 ## Usage
 
-The [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) service supports multiple advanced/paid features
-such as [Argo Tunnel](https://developers.cloudflare.com/argo-tunnel/),
-however this README only covers basic [DNS over HTTPS](https://developers.cloudflare.com/argo-tunnel/reference/doh/) proxy.
+Official Argo Tunnel documentation: <https://developers.cloudflare.com/argo-tunnel/>
 
 ```bash
+# print version info
+docker run --rm klutchell/cloudflared version
+
 # print general usage
 docker run --rm klutchell/cloudflared --help
 
@@ -66,6 +52,9 @@ docker run --rm klutchell/cloudflared proxy-dns --help
 
 # print tunnel usage
 docker run --rm klutchell/cloudflared tunnel --help
+
+# run a DNS over HTTPS proxy server on port 53
+docker run -p 53:5053/tcp -p 53:5053/udp klutchell/cloudflared proxy-dns
 ```
 
 ## Author
@@ -78,9 +67,7 @@ Please open an issue or submit a pull request with any features, fixes, or chang
 
 ## Acknowledgments
 
-A number of build steps were borrowed from CrazyMax's work: <https://github.com/crazy-max/docker-cloudflared>
-
-Original software is by Cloudflare: <https://developers.cloudflare.com/argo-tunnel/>
+Original software is by Cloudflare: <https://github.com/cloudflare/cloudflared>
 
 ## License
 

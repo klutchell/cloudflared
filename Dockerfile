@@ -1,15 +1,11 @@
 
-ARG ARCH=amd64
 
-# ----------------------------------------------------------------------------
-
-FROM ${ARCH}/golang:1.13.1-alpine3.10 as cloudflared
+FROM golang:1.12 as builder
 
 ARG CLOUDFLARED_BRANCH="2019.9.2"
 ARG CLOUDFLARED_URL="https://github.com/cloudflare/cloudflared"
 
-RUN apk add --no-cache build-base=0.5-r1 ca-certificates=20190108-r0 gcc=8.3.0-r0 git=2.22.0-r0 \
-	&& git -c advice.detachedHead=false clone --depth 1 --branch ${CLOUDFLARED_BRANCH} ${CLOUDFLARED_URL} "${GOPATH}/src/github.com/cloudflare/cloudflared"
+RUN git clone --depth 1 --branch ${CLOUDFLARED_BRANCH} ${CLOUDFLARED_URL} "${GOPATH}/src/github.com/cloudflare/cloudflared"
 
 WORKDIR ${GOPATH}/src/github.com/cloudflare/cloudflared
 
@@ -17,7 +13,7 @@ RUN make cloudflared
 
 # ----------------------------------------------------------------------------
 
-FROM ${ARCH}/alpine:3.10.2
+FROM gcr.io/distroless/base
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
@@ -29,27 +25,13 @@ LABEL org.label-schema.name="klutchell/cloudflared"
 LABEL org.label-schema.description="Argo Tunnel client"
 LABEL org.label-schema.url="https://github.com/cloudflare/cloudflared"
 LABEL org.label-schema.vcs-url="https://github.com/klutchell/cloudflared"
-LABEL org.label-schema.docker.cmd="docker run -p 53:5053/udp klutchell/cloudflared"
+LABEL org.label-schema.docker.cmd="docker run klutchell/cloudflared"
 LABEL org.label-schema.build-date="${BUILD_DATE}"
 LABEL org.label-schema.version="${BUILD_VERSION}"
 LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
-COPY --from=cloudflared /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
+COPY --from=builder /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
 
-RUN apk add --no-cache ca-certificates=20190108-r0 drill=1.7.0-r2 openssl=1.1.1d-r0 tzdata=2019c-r0 \
-	&& addgroup -g 1000 cloudflared && adduser -u 1000 -D -H -s /sbin/nologin -G cloudflared cloudflared \
-	&& cloudflared --version
+ENTRYPOINT ["cloudflared", "--no-autoupdate"]
 
-USER cloudflared
-
-ENV TUNNEL_DNS_ADDRESS="0.0.0.0"
-ENV TUNNEL_DNS_PORT="5053"
-ENV TUNNEL_DNS_UPSTREAM="https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
-
-HEALTHCHECK --interval=5s --timeout=3s --start-period=5s \
-	CMD drill -D -p 5053 sigok.verteiltesysteme.net @127.0.0.1 | grep NOERROR \
-	&& drill -D -p 5053 sigfail.verteiltesysteme.net @127.0.0.1 | grep SERVFAIL
-
-ENTRYPOINT ["/usr/local/bin/cloudflared"]
-
-CMD ["proxy-dns"]
+CMD ["version"]
