@@ -1,7 +1,7 @@
 
 DOCKER_REPO := klutchell/cloudflared
 TAG := 2019.9.2
-PLATFORM += linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,
+PLATFORM := linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,
 BUILD_OPTIONS += --pull
 
 BUILD_DATE := $(strip $(shell docker run --rm busybox date -u +'%Y-%m-%dT%H:%M:%SZ'))
@@ -30,8 +30,8 @@ buildx: builder	## cross-build multiarch manifest(s) with configured platforms
 		--build-arg BUILD_VERSION \
 		--build-arg BUILD_DATE \
 		--build-arg VCS_REF \
-		--tag ${DOCKER_REPO}:latest \
-		--tag ${DOCKER_REPO}:${TAG} .
+		--tag ${DOCKER_REPO}:${TAG} \
+		--tag ${DOCKER_REPO}:latest .
 
 inspect:	## inspect manifest contents
 	docker buildx imagetools inspect ${DOCKER_REPO}:${TAG}
