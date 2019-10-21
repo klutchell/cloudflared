@@ -3,7 +3,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/klutchell/cloudflared.svg?style=flat-square)](https://hub.docker.com/r/klutchell/cloudflared/)
 [![Docker Stars](https://img.shields.io/docker/stars/klutchell/cloudflared.svg?style=flat-square)](https://hub.docker.com/r/klutchell/cloudflared/)
 
-This image contains the [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) command-line client and its libraries for Argo Tunnel, a tunneling daemon that proxies any local webserver through the Cloudflare network. The [cloudflared](https://developers.cloudflare.com/argo-tunnel/downloads/) client also supports doing DNS over an encrypted HTTPS connection instead of using the default DNS resolver configured for your server/container/VM/environment.
+[cloudflared](https://github.com/cloudflare/cloudflared) - Cloudflare's command-line tool and agent
 
 ## Tags
 
@@ -40,8 +40,6 @@ make inspect
 ```
 
 ## Usage
-
-Official Argo Tunnel documentation: <https://developers.cloudflare.com/argo-tunnel/>
 
 ```bash
 # print version info

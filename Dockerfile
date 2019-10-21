@@ -34,4 +34,4 @@ COPY --from=builder /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/l
 
 ENTRYPOINT ["cloudflared", "--no-autoupdate"]
 
-CMD ["version"]
+CMD ["help"]
