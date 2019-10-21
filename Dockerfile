@@ -1,5 +1,3 @@
-
-
 FROM golang:1.12 as builder
 
 ARG CLOUDFLARED_BRANCH="2019.9.2"
@@ -25,7 +23,7 @@ LABEL org.label-schema.name="klutchell/cloudflared"
 LABEL org.label-schema.description="Argo Tunnel client"
 LABEL org.label-schema.url="https://github.com/cloudflare/cloudflared"
 LABEL org.label-schema.vcs-url="https://github.com/klutchell/cloudflared"
-LABEL org.label-schema.docker.cmd="docker run klutchell/cloudflared"
+LABEL org.label-schema.docker.cmd="docker run --rm klutchell/cloudflared --help"
 LABEL org.label-schema.build-date="${BUILD_DATE}"
 LABEL org.label-schema.version="${BUILD_VERSION}"
 LABEL org.label-schema.vcs-ref="${VCS_REF}"
@@ -34,4 +32,4 @@ COPY --from=builder /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/l
 
 ENTRYPOINT ["cloudflared", "--no-autoupdate"]
 
-CMD ["help"]
+CMD ["--help"]

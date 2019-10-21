@@ -1,4 +1,3 @@
-
 DOCKER_REPO := klutchell/cloudflared
 TAG := 2019.9.2
 PLATFORM := linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7
@@ -22,7 +21,7 @@ build:	## build and test on the host OS architecture
 		--build-arg BUILD_DATE \
 		--build-arg VCS_REF \
 		--tag ${DOCKER_REPO} .
-	docker run --rm ${DOCKER_REPO}
+	docker run --rm ${DOCKER_REPO} --version
 
 buildx: builder	## cross-build multiarch manifest(s) with configured platforms
 	docker buildx build ${BUILD_OPTIONS} \

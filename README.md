@@ -7,6 +7,8 @@
 
 ## Tags
 
+These tags including rolling updates, so from time to time the associated image may change to include fixes.
+
 - `2019.9.2`, `latest`
 - `2019.9.1`
 
@@ -43,7 +45,7 @@ make inspect
 
 ```bash
 # print version info
-docker run --rm klutchell/cloudflared version
+docker run --rm klutchell/cloudflared --version
 
 # print general usage
 docker run --rm klutchell/cloudflared --help
