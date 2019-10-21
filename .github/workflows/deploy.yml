@@ -1,4 +1,4 @@
-name: build
+name: deploy
 
 on:
   push:
@@ -7,10 +7,13 @@ on:
       - 'releases/**'
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
+      - name: install
+        run: curl -fsSL get.docker.com | sh
+        
       - name: checkout
         uses: actions/checkout@v1
 
@@ -20,5 +23,8 @@ jobs:
       - name: login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: manifest
-        run: make manifest DOCKER_REPO=${{ secrets.DOCKER_REPO }}
+      - name: buildx
+        run: make buildx DOCKER_REPO=${{ secrets.DOCKER_REPO }} BUILD_OPTIONS=--push
+      
+      - name: inspect
+        run: make inspect DOCKER_REPO=${{ secrets.DOCKER_REPO }}

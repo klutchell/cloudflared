@@ -26,14 +26,17 @@ The architectures supported by this image are:
 ## Building
 
 ```bash
-# print makefile usage
+# display available commands
 make help
 
 # build and test on the host OS architecture
 make build BUILD_OPTIONS=--no-cache
 
-# build multiarch manifest(s) for all supported architectures
-make manifest
+# cross-build multiarch manifest(s) with configured platforms
+make buildx BUILD_OPTIONS=--push
+
+# inspect manifest contents
+make inspect
 ```
 
 ## Usage

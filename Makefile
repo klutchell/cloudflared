@@ -1,7 +1,8 @@
 
 DOCKER_REPO := klutchell/cloudflared
 TAG := 2019.9.2
-BUILD_OPTIONS +=
+PLATFORM += linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7,
+BUILD_OPTIONS += --pull
 
 BUILD_DATE := $(strip $(shell docker run --rm busybox date -u +'%Y-%m-%dT%H:%M:%SZ'))
 BUILD_VERSION := ${TAG}-$(strip $(shell git describe --tags --always --dirty))
@@ -13,28 +14,31 @@ DOCKER_CLI_EXPERIMENTAL := enabled
 
 .DEFAULT_GOAL := build
 
-.PHONY: build manifest help
+.PHONY: build buildx inspect help
 
-build: builder ## build and test on the host OS architecture
-	docker buildx build ${BUILD_OPTIONS} --pull --load \
+build:	## build and test on the host OS architecture
+	docker build ${BUILD_OPTIONS} \
 		--build-arg BUILD_VERSION \
 		--build-arg BUILD_DATE \
 		--build-arg VCS_REF \
 		--tag ${DOCKER_REPO} .
 	docker run --rm ${DOCKER_REPO}
 
-manifest: builder ## build multiarch manifest(s) for all supported architectures
-	docker buildx build ${BUILD_OPTIONS} --pull --push \
-		--platform linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/arm/v7 \
+buildx: builder	## cross-build multiarch manifest(s) with configured platforms
+	docker buildx build ${BUILD_OPTIONS} \
+		--platform ${PLATFORM} \
 		--build-arg BUILD_VERSION \
 		--build-arg BUILD_DATE \
 		--build-arg VCS_REF \
 		--tag ${DOCKER_REPO}:latest \
 		--tag ${DOCKER_REPO}:${TAG} .
 
+inspect:	## inspect manifest contents
+	docker buildx imagetools inspect ${DOCKER_REPO}:${TAG}
+
 builder: binfmt
-	-docker buildx create --name ci
-	docker buildx use ci
+	-docker buildx create --use --name ci
+	docker buildx inspect --bootstrap
 
 binfmt:
 	docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d

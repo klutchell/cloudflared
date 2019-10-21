@@ -8,8 +8,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: install
+        run: curl -fsSL get.docker.com | sh
+        
       - name: checkout
         uses: actions/checkout@v1
 
       - name: build
         run: make build
+
+      - name: buildx
+        run: make buildx
