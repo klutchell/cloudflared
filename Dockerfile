@@ -11,7 +11,7 @@ RUN make cloudflared
 
 # ----------------------------------------------------------------------------
 
-FROM gcr.io/distroless/base
+FROM gcr.io/distroless/base-debian10:nonroot
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
@@ -30,6 +30,9 @@ LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
 COPY --from=builder /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
 
+ENV TUNNEL_DNS_ADDRESS="0.0.0.0"
+ENV TUNNEL_DNS_PORT="5053"
+
 ENTRYPOINT ["cloudflared", "--no-autoupdate"]
 
-CMD ["--help"]
+CMD ["proxy-dns"]

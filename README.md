@@ -60,6 +60,9 @@ docker run --rm klutchell/cloudflared tunnel --help
 docker run -p 53:5053/tcp -p 53:5053/udp klutchell/cloudflared proxy-dns
 ```
 
+Note that this image is [distroless](https://github.com/GoogleContainerTools/distroless) and contains no shell or busybox binaries.
+Logging in to the container is not possible for security reasons.
+
 ## Author
 
 Kyle Harding: <https://klutchell.dev>
