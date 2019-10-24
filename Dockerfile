@@ -42,8 +42,9 @@ COPY --from=build /usr/bin/dig /usr/bin/dig
 
 USER nonroot
 
-ENV TUNNEL_DNS_ADDRESS="0.0.0.0"
-ENV TUNNEL_DNS_PORT="5053"
+ENV TUNNEL_DNS_ADDRESS "0.0.0.0"
+ENV TUNNEL_DNS_PORT "5053"
+ENV TUNNEL_DNS_UPSTREAM "https://1.1.1.1/dns-query,https://1.0.0.1/dns-query"
 
 ENTRYPOINT ["cloudflared", "--no-autoupdate"]
 
