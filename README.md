@@ -42,7 +42,7 @@ make build
 make test
 
 # cross-build multiarch manifest
-make buildx
+make all
 
 # inspect manifest contents
 make inspect

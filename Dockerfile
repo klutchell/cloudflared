@@ -1,4 +1,4 @@
-FROM golang:1.12 as builder
+FROM golang:1.12 as build
 
 WORKDIR ${GOPATH}/src/github.com/cloudflare/cloudflared
 
@@ -9,11 +9,12 @@ ENV CGO_ENABLED 0
 
 RUN curl -L "${CLOUDFLARED_SOURCE}${CLOUDFLARED_VERSION}.tar.gz" -o /tmp/cloudflared.tar.gz \
 	&& tar xzf /tmp/cloudflared.tar.gz --strip 1 \
-    && make cloudflared VERSION="${CLOUDFLARED_VERSION}"
+    && make cloudflared VERSION="${CLOUDFLARED_VERSION}" \
+    && adduser --system nonroot
 
 # ----------------------------------------------------------------------------
 
-FROM alpine:3.10
+FROM scratch
 
 ARG BUILD_DATE
 ARG BUILD_VERSION
@@ -30,9 +31,11 @@ LABEL org.label-schema.build-date="${BUILD_DATE}"
 LABEL org.label-schema.version="${BUILD_VERSION}"
 LABEL org.label-schema.vcs-ref="${VCS_REF}"
 
-COPY --from=builder /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
+COPY --from=build /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
+COPY --from=build /etc/passwd /etc/passwd
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-RUN apk add --no-cache ca-certificates=20190108-r0
+USER nonroot
 
 ENV TUNNEL_DNS_ADDRESS="0.0.0.0"
 ENV TUNNEL_DNS_PORT="5053"

@@ -16,32 +16,29 @@ COMPOSE_FILE := test/docker-compose.yml
 
 .DEFAULT_GOAL := build
 
-.PHONY: build buildx inspect test clean bootstrap binfmt qemu-user-static help
+.PHONY: build all inspect test clean bootstrap binfmt help
 
-build: ## build on the host OS architecture
-	docker build --tag ${DOCKER_REPO} ${BUILD_OPTIONS} .
+build: bootstrap ## build on the host OS architecture
+	docker buildx build --pull --tag ${DOCKER_REPO}:${TAG} --tag ${DOCKER_REPO}:latest --load ${BUILD_OPTIONS} .
 
-buildx: bootstrap ## cross-build multiarch manifest
+all: bootstrap ## cross-build multiarch manifest
 	docker buildx build --pull --tag ${DOCKER_REPO}:${TAG} --tag ${DOCKER_REPO}:latest --platform ${PLATFORM} ${BUILD_OPTIONS} .
 
 inspect: ## inspect manifest contents
 	docker buildx imagetools inspect ${DOCKER_REPO}:${TAG}
 
-test: ## test on the host OS architecture
+test: binfmt ## test on the host OS architecture
 	docker-compose up --force-recreate --abort-on-container-exit
 	docker-compose down
 
 clean: ## clean dangling images, containers, and build instances
 	-docker-compose down
 	-docker buildx rm ${BUILDX_INSTANCE}
-	-docker rmi $(docker images -q ${DOCKER_REPO})
+	-docker rmi ${DOCKER_REPO}:${TAG} ${DOCKER_REPO}:latest
 
 bootstrap: binfmt
 	-docker buildx create --use --name ${BUILDX_INSTANCE}
 	-docker buildx inspect --bootstrap
-
-qemu-user-static:
-	docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
 binfmt:
 	docker run --rm --privileged docker/binfmt:66f9012c56a8316f9244ffd7622d7c21c1f6f28d
