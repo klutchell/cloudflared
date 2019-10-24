@@ -4,6 +4,6 @@ services:
         image: klutchell/cloudflared
     dig:
         image: alpine
-        command: sh -c 'apk add -q --no-cache bind-tools && dig @cloudflared cloudflare.com AAAA'
+        command: sh -c 'apk add -q --no-cache bind-tools && dig @cloudflared -p 5053 cloudflare.com AAAA'
         links:
             - cloudflared
