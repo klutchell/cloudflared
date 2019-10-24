@@ -2,8 +2,8 @@ version: '3'
 services:
     cloudflared:
         image: klutchell/cloudflared
-    drill:
+    dig:
         image: alpine
-        command: sh -c 'apk add -q --no-cache drill && drill -p 5053 cloudflare.com @cloudflared'
+        command: sh -c 'apk add -q --no-cache bind-tools && dig @cloudflared cloudflare.com AAAA'
         links:
             - cloudflared

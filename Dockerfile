@@ -5,9 +5,13 @@ WORKDIR ${GOPATH}/src/github.com/cloudflare/cloudflared
 ARG CLOUDFLARED_VERSION=2019.10.4
 ARG CLOUDFLARED_SOURCE=https://github.com/cloudflare/cloudflared/archive/
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV CGO_ENABLED 0
 
-RUN curl -L "${CLOUDFLARED_SOURCE}${CLOUDFLARED_VERSION}.tar.gz" -o /tmp/cloudflared.tar.gz \
+RUN apt-get update && apt-get install -qq --no-install-recommends dnsutils=1:9.11.5.P4+dfsg-5.1 \
+	&& apt-get clean \
+	&& rm -rf /var/lib/apt/lists/* \
+    && curl -L "${CLOUDFLARED_SOURCE}${CLOUDFLARED_VERSION}.tar.gz" -o /tmp/cloudflared.tar.gz \
 	&& tar xzf /tmp/cloudflared.tar.gz --strip 1 \
     && make cloudflared VERSION="${CLOUDFLARED_VERSION}" \
     && adduser --system nonroot
@@ -34,6 +38,7 @@ LABEL org.label-schema.vcs-ref="${VCS_REF}"
 COPY --from=build /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/cloudflared
 COPY --from=build /etc/passwd /etc/passwd
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=build /usr/bin/dig /usr/bin/dig
 
 USER nonroot
 
@@ -43,5 +48,8 @@ ENV TUNNEL_DNS_PORT="5053"
 ENTRYPOINT ["cloudflared", "--no-autoupdate"]
 
 CMD ["proxy-dns"]
+
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+	CMD [ "dig", "+short", "@127.0.0.1", "-p", "5053", "cloudflare.com", "AAAA" ]
 
 RUN ["cloudflared", "--version"]
