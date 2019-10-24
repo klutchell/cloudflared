@@ -9,12 +9,11 @@
 
 These tags including rolling updates, so occasionally the associated image may change to include fixes.
 
-- `2019.9.2`, `latest`
+- `2019.10.4`, `latest`
+- `2019.9.2`
 - `2019.9.1`
 
 ## Architectures
-
-Simply pulling `klutchell/cloudflared` should retrieve the correct image for your arch.
 
 The architectures supported by this image are:
 
@@ -25,17 +24,25 @@ The architectures supported by this image are:
 - `linux/386`
 - `linux/arm/v7`
 
+Simply pulling `klutchell/cloudflared` should retrieve the correct image for your arch.
+
 ## Building
 
 ```bash
 # display available commands
 make help
 
-# build and test on the host OS architecture
-make build BUILD_OPTIONS=--no-cache
+# clean dangling images, containers, and build instances
+make clean
 
-# cross-build multiarch manifest(s) with configured platforms
-make all BUILD_OPTIONS=--push
+# build on the host OS architecture
+make build
+
+# test on the host OS architecture
+make test
+
+# cross-build multiarch manifest
+make buildx
 
 # inspect manifest contents
 make inspect
@@ -59,9 +66,6 @@ docker run --rm klutchell/cloudflared tunnel --help
 # run a DNS over HTTPS proxy server on port 53
 docker run -p 53:5053/tcp -p 53:5053/udp klutchell/cloudflared proxy-dns
 ```
-
-Note that this image is [distroless](https://github.com/GoogleContainerTools/distroless) and contains no shell or busybox binaries.
-Logging in to the container is not possible for security reasons.
 
 ## Author
 
