@@ -23,6 +23,7 @@ The architectures supported by this image are:
 - `linux/s390x`
 - `linux/386`
 - `linux/arm/v7`
+- `linux/arm/v6`
 
 Simply pulling `klutchell/cloudflared` should retrieve the correct image for your arch.
 
@@ -82,4 +83,4 @@ Original software is by Cloudflare: <https://github.com/cloudflare/cloudflared>
 ## License
 
 - klutchell/cloudflared: [MIT License](./LICENSE)
-- cloudflared: [CLOUDFLARED LICENSE](https://developers.cloudflare.com/argo-tunnel/license/)
+- cloudflare/cloudflared: [CLOUDFLARED LICENSE](https://developers.cloudflare.com/argo-tunnel/license/)
