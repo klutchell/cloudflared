@@ -7,7 +7,7 @@ ARG CLOUDFLARED_SOURCE=https://github.com/cloudflare/cloudflared/archive/
 
 ENV CGO_ENABLED 0
 
-RUN apk add --no-cache build-base=0.5-r1 ca-certificates=20190108-r0 curl=7.66.0-r0 drill=1.7.0-r2 \
+RUN apk add --no-cache build-base=0.5-r1 ca-certificates=20190108-r0 curl=7.66.0-r0 \
 	&& curl -L "${CLOUDFLARED_SOURCE}${CLOUDFLARED_VERSION}.tar.gz" -o /tmp/cloudflared.tar.gz \
 	&& tar xzf /tmp/cloudflared.tar.gz --strip 1 \
 	&& make cloudflared VERSION="${CLOUDFLARED_VERSION}" \
@@ -36,10 +36,6 @@ COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 COPY --from=build /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/
 
-COPY --from=build /usr/bin/drill /usr/bin/drill
-COPY --from=build /usr/lib/libldns.so.2 /usr/lib/libldns.so.2.0.0 /usr/lib/libcrypto.so.1.1 /usr/lib/
-COPY --from=build /lib/libcrypto.so.1.1 /lib/ld-musl-*.so.1 /lib/libc.musl-*.so.1 /lib/
-
 USER nonroot
 
 ENV TUNNEL_DNS_ADDRESS "0.0.0.0"
@@ -50,9 +46,4 @@ ENTRYPOINT ["cloudflared", "--no-autoupdate"]
 
 CMD ["proxy-dns"]
 
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-	CMD [ "drill", "-p", "5053", "cloudflare.com", "@127.0.0.1" ]
-
 RUN ["cloudflared", "--version"]
-
-RUN ["drill", "-v"]
