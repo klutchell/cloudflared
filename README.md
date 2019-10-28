@@ -42,6 +42,9 @@ make build test
 
 ## Usage
 
+- Argo Tunnel Documentation: <https://developers.cloudflare.com/argo-tunnel/>
+- Running a DNS over HTTPS Client: <https://developers.cloudflare.com/1.1.1.1/dns-over-https/cloudflared-proxy/>
+
 ```bash
 # print version info
 docker run --rm klutchell/cloudflared --version
