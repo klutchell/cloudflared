@@ -26,6 +26,7 @@ The architectures supported by this image are:
 
 Simply pulling `klutchell/cloudflared` should retrieve the correct image for your arch.
 
+
 ## Building
 
 ```bash
@@ -37,9 +38,6 @@ make clean
 
 # build and test on the host architecture
 make build test
-
-# cross-build multiarch manifest
-make all
 ```
 
 ## Usage
