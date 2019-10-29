@@ -10,7 +10,7 @@ ENV CGO_ENABLED 0
 RUN apk add --no-cache build-base=0.5-r1 ca-certificates=20190108-r0 curl=7.66.0-r0 \
 	&& curl -L "${CLOUDFLARED_SOURCE}${CLOUDFLARED_VERSION}.tar.gz" -o /tmp/cloudflared.tar.gz \
 	&& tar xzf /tmp/cloudflared.tar.gz --strip 1 \
-	&& make cloudflared VERSION_FLAGS="-ldflags='-X \"main.Version=$(CLOUDFLARED_VERSION)\" -X \"main.BuildTime=$(date -u '+%Y-%m-%d-%H%M UTC')\" -s -w'" \
+	&& make cloudflared VERSION="$(CLOUDFLARED_VERSION)" \
 	&& adduser -S nonroot
 
 # ----------------------------------------------------------------------------
