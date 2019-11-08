@@ -1,5 +1,5 @@
 DOCKER_REPO := klutchell/cloudflared
-TAG := 2019.10.4
+TAG := 2019.11.0
 
 BUILD_DATE := $(strip $(shell docker run --rm busybox date -u +'%Y-%m-%dT%H:%M:%SZ'))
 BUILD_VERSION := $(TAG)

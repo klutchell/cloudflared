@@ -2,7 +2,7 @@ FROM golang:1.13-alpine3.10 as build
 
 WORKDIR /go/src/github.com/cloudflare/cloudflared
 
-ARG CLOUDFLARED_VERSION=2019.10.4
+ARG CLOUDFLARED_VERSION=2019.11.0
 ARG CLOUDFLARED_SOURCE=https://github.com/cloudflare/cloudflared/archive/
 
 ENV CGO_ENABLED 0

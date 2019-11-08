@@ -9,7 +9,8 @@
 
 These tags including rolling updates, so occasionally the associated image may change to include fixes.
 
-- `2019.10.4`, `latest`
+- `2019.11.0`, `latest`
+- `2019.10.4`
 - `2019.9.2`
 - `2019.9.1`
 
@@ -25,7 +26,6 @@ The architectures supported by this image are:
 - `linux/arm/v6`
 
 Simply pulling `klutchell/cloudflared` should retrieve the correct image for your arch.
-
 
 ## Building
 
