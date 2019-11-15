@@ -30,7 +30,7 @@ LABEL org.opencontainers.image.revision="${VCS_REF}"
 LABEL org.opencontainers.image.title="klutchell/cloudflared"
 LABEL org.opencontainers.image.description="Cloudflare's command-line tool and agent"
 
-COPY --from=build /etc/passwd /etc/passwd
+COPY --from=build /etc/passwd /etc/group /etc/
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 COPY --from=build /go/src/github.com/cloudflare/cloudflared/cloudflared /usr/local/bin/
