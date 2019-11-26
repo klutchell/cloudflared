@@ -5,15 +5,6 @@
 
 [cloudflared](https://github.com/cloudflare/cloudflared) - Cloudflare's command-line tool and agent
 
-## Tags
-
-These tags including rolling updates, so occasionally the associated image may change to include fixes.
-
-- `2019.11.0`, `latest`
-- `2019.10.4`
-- `2019.9.2`
-- `2019.9.1`
-
 ## Architectures
 
 The architectures supported by this image are:
