@@ -18,20 +18,26 @@ The architectures supported by this image are:
 
 Simply pulling `klutchell/cloudflared` should retrieve the correct image for your arch.
 
-## Building
+## Build
 
 ```bash
-# display available commands
-make help
+# build a local image
+docker build . -t klutchell/cloudflared
 
-# clean dangling images, containers, and build instances
-make clean
+# cross-build for another platform (eg. arm32v6)
+export DOCKER_CLI_EXPERIMENTAL=enabled
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+docker buildx create --use --driver docker-container
+docker buildx build . --platform linux/arm/v6 --load -t klutchell/cloudflared
+```
 
-# build and test on the host architecture
-make build test
+## Test
 
-# cross-build for other architectures
-make build test EXTRA_OPTS=--platform=linux/arm/v7
+```bash
+# run selftest on local image
+docker run --rm -d --name cloudflared klutchell/cloudflared
+docker run --rm -it --link cloudflared uzyexe/drill -p 5053 cloudflared.com @cloudflared
+docker stop cloudflared
 ```
 
 ## Usage
@@ -63,6 +69,8 @@ Kyle Harding: <https://klutchell.dev>
 ## Contributing
 
 Please open an issue or submit a pull request with any features, fixes, or changes.
+
+<https://github.com/klutchell/cloudflared/issues>
 
 ## Acknowledgments
 
