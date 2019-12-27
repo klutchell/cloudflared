@@ -36,7 +36,7 @@ docker buildx build . --platform linux/arm/v6 --load -t klutchell/cloudflared
 ```bash
 # run selftest on local image
 docker run --rm -d --name cloudflared klutchell/cloudflared
-docker run --rm -it --link cloudflared uzyexe/drill -p 5053 cloudflared.com @cloudflared
+docker run --rm -it --link cloudflared uzyexe/drill -p 5053 cloudflare.com @cloudflared
 docker stop cloudflared
 ```
 

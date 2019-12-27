@@ -44,7 +44,7 @@ jobs:
       - name: image test
         run: |
           docker run --rm -d --name cloudflared ${GITHUB_REPOSITORY}
-          docker run --rm --link cloudflared uzyexe/drill -p 5053 cloudflared.com @cloudflared | tee /dev/stderr | grep -q NOERROR
+          docker run --rm --link cloudflared uzyexe/drill -p 5053 cloudflare.com @cloudflared | tee /dev/stderr | grep -q NOERROR
           docker stop cloudflared
 
   deploy:
