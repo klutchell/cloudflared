@@ -1,13 +1,13 @@
-FROM golang:1.13-alpine3.10 as build
+FROM golang:1.13-alpine as build
 
 WORKDIR /go/src/github.com/cloudflare/cloudflared
 
-ARG CLOUDFLARED_VERSION=2019.12.0
+ARG CLOUDFLARED_VERSION=2020.2.0
 ARG CLOUDFLARED_SOURCE=https://github.com/cloudflare/cloudflared/archive/
 
 ENV CGO_ENABLED 0
 
-RUN apk add --no-cache build-base=0.5-r1 ca-certificates=20190108-r0 curl=7.66.0-r0 \
+RUN apk add --no-cache build-base=0.5-r1 curl=7.67.0-r0 \
 	&& curl -L "${CLOUDFLARED_SOURCE}${CLOUDFLARED_VERSION}.tar.gz" -o /tmp/cloudflared.tar.gz \
 	&& tar xzf /tmp/cloudflared.tar.gz --strip 1 \
 	&& make cloudflared VERSION="${CLOUDFLARED_VERSION}"
