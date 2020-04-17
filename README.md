@@ -64,7 +64,11 @@ docker run -p 53:5053/tcp -p 53:5053/udp klutchell/cloudflared proxy-dns
 
 ## Author
 
-Kyle Harding: <https://klutchell.dev>
+Kyle Harding <https://klutchell.dev>
+
+[Buy me a beer](https://kyles-tip-jar.myshopify.com/cart/31356319498262:1?channel=buy_button)
+
+[Buy me a craft beer](https://kyles-tip-jar.myshopify.com/cart/31356317859862:1?channel=buy_button)
 
 ## Contributing
 
